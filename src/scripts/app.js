@@ -299,9 +299,9 @@ function onConnect() {
   client.onMessageArrived = function(message) {
     //console.log("onMessageArrived: length = " + message.payloadBytes.length);
     //console.log("onMessageArrived: " + message.payloadBytes);
-
     timeMeasuring();
-    processRawData(message.payloadBytes);
+    //processRawData(message.payloadBytes);
+    setTimeout(() => {processRawData(message.payloadBytes);}, 1);    
   }
   // QOS 0 –  Send Once, not acknowledged
   client.subscribe("sensor/radar/rangedoppler", { qos: 0 });
