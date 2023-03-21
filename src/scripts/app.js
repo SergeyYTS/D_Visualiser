@@ -24,6 +24,8 @@ var isDataFromSocket = false;
 var rawDataCols = document.getElementById("rawDataColsInput");
 var rawDataRows = document.getElementById("rawDataRowsInput");
 
+var timesLabel = document.getElementById("timesLabel");
+
 
 function initOnLoad() {
     console.log("initOnLoad");  
@@ -253,6 +255,7 @@ function onConnect() {
     //console.log("onMessageArrived: length = " + message.payloadBytes.length);
     //console.log("onMessageArrived: " + message.payloadBytes);
 
+    timeMeasuring();
     processRawData(message.payloadBytes);
   }
   client.subscribe("sensor/radar/rangedoppler", { qos: 2 });
@@ -296,5 +299,10 @@ function processRawData(d) {
 function disconnect() {
     client.disconnect();
     isDataFromSocket = false;
+}
+
+
+function timeMeasuring() {
+    timesLabel.innerText = "min 0.0 ms";
 }
 
