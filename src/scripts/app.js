@@ -251,6 +251,7 @@ var connectOptions = {
   timeout: 30,
   reconnect: true,
   cleanSession: true,
+  retained: false,
   mqttVersion: 3,
   keepAliveInterval: 10,
   onSuccess: onConnect,
