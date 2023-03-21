@@ -37,6 +37,8 @@ var frameDelay = 1000 / FPS;
 
 var dumpDiv = document.getElementById("dumpDiv");
 
+var fpsInput = document.getElementById("fpsInput");
+
 
 function initOnLoad() {
     console.log("initOnLoad");  
@@ -431,5 +433,10 @@ function flipAccordion() {
     } else {
         dumpDiv.style.display = "block";
     }
+}
+
+
+function applayFps() {
+    frameDelay = 1000 / fpsInput.value;
 }
 
