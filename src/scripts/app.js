@@ -420,7 +420,8 @@ function timeMeasuring() {
         deltaAveStr = "&nbsp;&nbsp;" + deltaAveStr;
     }
 
-    timesLabel.innerText = "min: " + deltaMin + " ms / max: " + deltaMax + " ms / ave: " + deltaAveStr + " ms \n fps: " + FPS + " / skipped: " + skippedFrames;
+    // not .innerText
+    timesLabel.textContent = "min: " + deltaMin + " ms / max: " + deltaMax + " ms / ave: " + deltaAveStr + " ms \n fps: " + FPS + " / skipped: " + skippedFrames;
 }
 
 
