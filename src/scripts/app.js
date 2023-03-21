@@ -35,6 +35,8 @@ const FPS = 25;
 var frateStartTime = 0;
 var frameDelay = 1000 / FPS;
 
+var dumpDiv = document.getElementById("dumpDiv");
+
 
 function initOnLoad() {
     console.log("initOnLoad");  
@@ -407,5 +409,14 @@ function timeMeasuring() {
     var delta
 
     timesLabel.innerText = "min: " + deltaMin + " ms / max: " + deltaMax + " ms / ave: " + deltaAve + " ms \n fps: " + FPS + " / skipped: " + skippedFrames;
+}
+
+
+function flipAccordion() {    
+    if (dumpDiv.style.display === "block") {
+        dumpDiv.style.display = "none";
+    } else {
+        dumpDiv.style.display = "block";
+    }
 }
 

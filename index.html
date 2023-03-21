@@ -8,18 +8,22 @@
     </head>
     <body onload="initOnLoad()" ondeviceready="initOnDeviceready()">
         <h4 id="header">D_Visualizer</h4>
-        <textarea id="textArea" cols="40" rows="5" placeholder="Insert (Ctrl+V) raw data here." onchange="textAreaChange()"></textarea>
-        </br>
-        <button onclick="analizeData()">Analize</button>   
-        </br>
-        <label for="rows">Number of rows:</label>
-        <!--input id="rowsNumberInput" name="rows" type="number" min="1" max="1000" value="2"-->
-        <label id="rowsLabel">0</label>
-        </br>
-        <label for="cols">Number of cols.:</label>
-        <!--input id="colsNumberInput" name="cols" type="number" min="1" max="1000" value="3"-->
-        <label id="colsLabel">0</label>
-        </br>
+        <button onclick="flipAccordion()">Dump</button>        
+        <div id="dumpDiv" style="display: none;">
+            </br>
+            <textarea id="textArea" cols="40" rows="5" placeholder="Insert (Ctrl+V) raw data here." onchange="textAreaChange()"></textarea>
+            </br>
+            <button onclick="analizeData()">Analize</button>   
+            </br>
+            <label for="rows">Number of rows:</label>
+            <!--input id="rowsNumberInput" name="rows" type="number" min="1" max="1000" value="2"-->
+            <label id="rowsLabel">0</label>
+            </br>
+            <label for="cols">Number of cols.:</label>
+            <!--input id="colsNumberInput" name="cols" type="number" min="1" max="1000" value="3"-->
+            <label id="colsLabel">0</label>
+            </br>
+        </div>        
         <hr>
         <button onclick="connect()">Connect</button>
         <button onclick="disconnect()">Disconnect</button>
