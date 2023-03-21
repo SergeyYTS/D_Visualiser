@@ -345,6 +345,7 @@ function processRawData(d) {
 function disconnect() {
     client.disconnect();
     isDataFromSocket = false;
+    initTimes();
 }
 
 
