@@ -28,6 +28,8 @@ var timesLabel = document.getElementById("timesLabel");
 var times = [];
 var timesPointer = 0;
 const TIMES_MAX = 16;
+var skippedFrames = 0;
+var skippedCounter = 0;
 
 
 function initOnLoad() {
@@ -172,6 +174,9 @@ function mapAndStrip(val, fromMin, fromMax, toMin, toMax) {
 
 function drawData() {
     clear();
+
+    skippedFrames = skippedCounter;
+    skippedCounter = 0;
     
     const pointSize = poinSizeInput.value;
     var isDiagonalFlip = diagonalFlipInput.checked;    
@@ -216,9 +221,9 @@ function drawData() {
     
     drawBorder();
 
-    //setTimeout(() => {
+    setTimeout(() => {
         isReadyToDraw = true;
-    //}, "5");          
+    }, "20");          
 }
 
 
@@ -282,6 +287,7 @@ const skipBytes = 34;
 
 function processRawData(d) {
     if (!isReadyToDraw) {
+        skippedCounter++;
         return;
     }
     isReadyToDraw = false;
@@ -365,6 +371,6 @@ function timeMeasuring() {
     var deltaAve = deltaSum / (TIMES_MAX - 1);
     deltaAve = Math.floor(deltaAve * 100) / 100;
 
-    timesLabel.innerText = "min: " + deltaMin + " ms / max: " + deltaMax + " ms / ave: " + deltaAve + " ms";
+    timesLabel.innerText = "min: " + deltaMin + " ms / max: " + deltaMax + " ms / ave: " + deltaAve + " ms / skipped: " + skippedFrames;
 }
 
