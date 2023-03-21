@@ -25,12 +25,16 @@ var rawDataCols = document.getElementById("rawDataColsInput");
 var rawDataRows = document.getElementById("rawDataRowsInput");
 
 var timesLabel = document.getElementById("timesLabel");
+var times = [];
+var timesPointer = 0;
+const TIMES_MAX = 10;
 
 
 function initOnLoad() {
     console.log("initOnLoad");  
     
     initDraw();
+    initTimes();
 }
 
 
@@ -302,7 +306,64 @@ function disconnect() {
 }
 
 
+//------------------------------------
+
+
+function initTimes() {
+    times = [];
+    for (var i = 0; i < TIMES_MAX; i++) {
+        times.push(Date.now());
+        timesPointer = i;
+    }
+}
+
+
 function timeMeasuring() {
-    timesLabel.innerText = "min 0.0 ms";
+    timesPointer++;
+    if (timesPointer >= TIMES_MAX) {
+        timesPointer = 0;
+    }
+
+    times[timesPointer] = Date.now();
+
+    var deltaMin = -1;
+    var deltaMax = -1;
+    var deltaAve = -1;
+    var tp = timesPointer + 1;
+    if (tp >= TIMES_MAX) {
+        tp = 0;
+    }
+    var np = tp + 1;
+    if (np >= TIMES_MAX) {
+        np = 0;
+    }
+    var deltaSum = 0;
+
+    while (tp != timesPointer) {
+        var delta = times[np] - times[tp];
+        if (deltaMin < 0) {
+            deltaMin = delta;
+        }
+        if (deltaMax < 0) {
+            deltaMax = delta;
+        }
+        if (delta > deltaMax) {
+            deltaMax = delta;
+        }
+        if (delta < deltaMin) {
+            deltaMin = delta;
+        }
+        deltaSum += delta;
+
+        tp = np;
+        np++;
+        if (np >= TIMES_MAX) {
+            np = 0;
+        }
+    }
+
+    var deltaAve = deltaSum / (TIMES_MAX - 1);
+
+    timesLabel.innerText = "min: " + deltaMin + " ms / min: " + deltaMax + " ms / ave: " + deltaAve + " ms";
 }
 
