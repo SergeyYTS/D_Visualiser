@@ -27,7 +27,7 @@ var rawDataRows = document.getElementById("rawDataRowsInput");
 var timesLabel = document.getElementById("timesLabel");
 var times = [];
 var timesPointer = 0;
-const TIMES_MAX = 10;
+const TIMES_MAX = 16;
 
 
 function initOnLoad() {
