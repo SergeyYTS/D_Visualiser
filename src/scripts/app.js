@@ -210,9 +210,9 @@ function drawData() {
     
     drawBorder();
 
-    setTimeout(() => {
+    //setTimeout(() => {
         isReadyToDraw = true;
-    }, "5");          
+    //}, "5");          
 }
 
 
