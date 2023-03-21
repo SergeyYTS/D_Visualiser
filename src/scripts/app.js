@@ -410,8 +410,14 @@ function timeMeasuring() {
     if (deltaAveStr.indexOf('.') == -1) {
         deltaAveStr += ".00";
     }
-    if (deltaAveStr.indexOf('.') == deltaAveStr.length - 3) {
+    if (deltaAveStr.indexOf('.') == deltaAveStr.length - 2) {
         deltaAveStr += "0";
+    }
+    if (deltaAveStr.length == 5) {
+        deltaAveStr = " " + deltaAveStr;
+    }
+    if (deltaAveStr.length == 4) {
+        deltaAveStr = "  " + deltaAveStr;
     }
 
     timesLabel.innerText = "min: " + deltaMin + " ms / max: " + deltaMax + " ms / ave: " + deltaAveStr + " ms \n fps: " + FPS + " / skipped: " + skippedFrames;
