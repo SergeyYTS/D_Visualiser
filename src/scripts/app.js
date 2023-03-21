@@ -363,7 +363,8 @@ function timeMeasuring() {
     }
 
     var deltaAve = deltaSum / (TIMES_MAX - 1);
+    deltaAve = Math.floor(deltaAve * 100) / 100;
 
-    timesLabel.innerText = "min: " + deltaMin + " ms / min: " + deltaMax + " ms / ave: " + deltaAve + " ms";
+    timesLabel.innerText = "min: " + deltaMin + " ms / max: " + deltaMax + " ms / ave: " + deltaAve + " ms";
 }
 
