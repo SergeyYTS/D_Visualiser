@@ -247,11 +247,30 @@ var userName = "visualizerUser";
 
 var client;
 
+
+// Valid properties are: 
+// timeout 
+// userName 
+// password 
+// willMessage
+// keepAliveInterval 
+// cleanSession
+// useSSL
+// invocationContext
+// onSuccess
+// onFailure
+// hosts
+// ports
+// reconnect
+// mqttVersion
+// mqttVersionExplicit
+// uris
+
 var connectOptions = {
   timeout: 30,
   reconnect: true,
   cleanSession: true,
-  retained: false,
+  //retained: false,
   mqttVersion: 3,
   keepAliveInterval: 10,
   onSuccess: onConnect,
@@ -281,7 +300,8 @@ function onConnect() {
     timeMeasuring();
     processRawData(message.payloadBytes);
   }
-  client.subscribe("sensor/radar/rangedoppler", { qos: 2 });
+  // QOS 0 –  Send Once, not acknowledged
+  client.subscribe("sensor/radar/rangedoppler", { qos: 0 });
 }
 
 function onFailure(err) {
