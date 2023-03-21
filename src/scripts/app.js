@@ -404,7 +404,8 @@ function timeMeasuring() {
 
     var deltaAve = deltaSum / (TIMES_MAX - 1);
     deltaAve = Math.floor(deltaAve * 100) / 100;
+    var delta
 
-    timesLabel.innerText = "min: " + deltaMin + " ms / max: " + deltaMax + " ms / ave: " + deltaAve + " ms / fps: " + FPS + " / skipped: " + skippedFrames;
+    timesLabel.innerText = "min: " + deltaMin + " ms / max: " + deltaMax + " ms / ave: " + deltaAve + " ms \n fps: " + FPS + " / skipped: " + skippedFrames;
 }
 
