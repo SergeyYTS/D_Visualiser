@@ -414,10 +414,10 @@ function timeMeasuring() {
         deltaAveStr += "0";
     }
     if (deltaAveStr.length == 5) {
-        deltaAveStr = " " + deltaAveStr;
+        deltaAveStr = "_" + deltaAveStr;
     }
     if (deltaAveStr.length == 4) {
-        deltaAveStr = "  " + deltaAveStr;
+        deltaAveStr = "__" + deltaAveStr;
     }
 
     // not .innerText
