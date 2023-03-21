@@ -414,10 +414,10 @@ function timeMeasuring() {
         deltaAveStr += "0";
     }
     if (deltaAveStr.length == 5) {
-        deltaAveStr = " " + deltaAveStr;
+        deltaAveStr = "&nbsp;" + deltaAveStr;
     }
     if (deltaAveStr.length == 4) {
-        deltaAveStr = "  " + deltaAveStr;
+        deltaAveStr = "&nbsp;&nbsp;" + deltaAveStr;
     }
 
     timesLabel.innerText = "min: " + deltaMin + " ms / max: " + deltaMax + " ms / ave: " + deltaAveStr + " ms \n fps: " + FPS + " / skipped: " + skippedFrames;
