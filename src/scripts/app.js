@@ -226,7 +226,7 @@ var client;
 var connectOptions = {
   timeout: 30,
   reconnect: true,
-  cleanSession: false,
+  cleanSession: true,
   mqttVersion: 3,
   keepAliveInterval: 10,
   onSuccess: onConnect,
