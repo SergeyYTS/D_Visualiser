@@ -295,6 +295,7 @@ function connect() {
 
 function onConnect() {
   console.log('on connect');
+  initTimes();
   client.onMessageArrived = function(message) {
     //console.log("onMessageArrived: length = " + message.payloadBytes.length);
     //console.log("onMessageArrived: " + message.payloadBytes);
@@ -344,8 +345,7 @@ function processRawData(d) {
 
 function disconnect() {
     client.disconnect();
-    isDataFromSocket = false;
-    initTimes();
+    isDataFromSocket = false;    
 }
 
 
