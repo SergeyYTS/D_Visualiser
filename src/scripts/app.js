@@ -212,7 +212,7 @@ function drawData() {
 
     setTimeout(() => {
         isReadyToDraw = true;
-    }, "20");          
+    }, "5");          
 }
 
 
