@@ -44,7 +44,8 @@ var centerShiftInput = document.getElementById("centerShiftInput");
 
 function initOnLoad() {
     console.log("initOnLoad");  
-    
+
+    canvasResize();
     initDraw();
     initTimes();
 }
@@ -453,3 +454,10 @@ function applayFps() {
     frameDelay = 1000 / fpsInput.value;
 }
 
+
+function canvasResize() {
+    var w = rawDataColsInput.value;
+    var h = rawDataRowsInput.value;
+    canvas.width = w;
+    canvas.height = h;
+}

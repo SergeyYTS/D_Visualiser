@@ -45,10 +45,10 @@
         <button onclick="disconnect()">Disconnect</button>
         </br>
         <label for="rawDataCols">Columns:</label>
-        <input id="rawDataColsInput" name="rawDataCols" type="number" min="1" max="2000" value="32">
+        <input id="rawDataColsInput" name="rawDataCols" type="number" min="1" max="2000" value="32" oninput="canvasResize();">
         </br>
         <label for="rawDataRows">Rows:</label>
-        <input id="rawDataRowsInput" name="rawDataRows" type="number" min="1" max="2000" value="256">
+        <input id="rawDataRowsInput" name="rawDataRows" type="number" min="1" max="2000" value="256" oninput="canvasResize();">
         <hr>
         <button onclick="autoDetectLevels()">Auto detect levels</button> 
         </br>  
