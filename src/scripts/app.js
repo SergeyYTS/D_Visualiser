@@ -214,7 +214,7 @@ function drawData() {
                 var n = ro * colsNum + co;
                 if (isCenterShift) {
                     var shiftedCo = co;
-                    if (co > colsNum / 2) {
+                    if (co >= colsNum / 2) {
                         shiftedCo -= colsNum / 2;
                     } else {
                         shiftedCo += colsNum / 2;
