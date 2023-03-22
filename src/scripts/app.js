@@ -348,7 +348,7 @@ function processRawData(d) {
     // then couples of bytes convert to uint16
     rawData = [];
     p = skipBytes;
-    while (p + 2 < d.length) {
+    while (p + 2 <= d.length) {
         rawData.push(d[p + 1] * 256 + d[p]);
         p = p + 2;
     }
