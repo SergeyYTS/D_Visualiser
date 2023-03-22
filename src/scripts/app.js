@@ -70,6 +70,7 @@ function clear() {
 }
 
 function drawBorder() {
+    ctx.beginPath();
     ctx.moveTo(0, 0); 
     ctx.lineTo(canvas.width, 0);
     ctx.lineTo(canvas.width, canvas.height);
