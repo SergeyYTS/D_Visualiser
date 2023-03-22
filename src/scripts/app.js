@@ -213,7 +213,7 @@ function drawData() {
             if (isDataFromSocket) {
                 var n = ro * colsNum + co;
                 if (isCenterShift) {
-                    var shiftedCo;
+                    var shiftedCo = co;
                     if (co > colsNum / 2) {
                         shiftedCo -= colsNum / 2;
                     } else {
