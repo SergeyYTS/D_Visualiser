@@ -42,6 +42,8 @@
             <!--input id="colsNumberInput" name="cols" type="number" min="1" max="1000" value="3"-->
             <label id="colsLabel">0</label>
             </br>
+            <button onclick="drawData()">Draw</button> 
+            </br>
         </div>        
         <hr>
         <button onclick="connect()">Connect</button>
@@ -68,8 +70,6 @@
         </br>
         <label for="poinSize">Point size</label>
         <input id="poinSizeInput" name="poinSize" type="number" min="1" max="20" value="2" oninput="canvasResize();">
-        </br>
-        <button onclick="drawData()">Draw</button> 
         </br>
         <label for="centerShift">Shift to center</label>
         <input id="centerShiftInput" name="centerShift" type="checkbox" checked="checked">
