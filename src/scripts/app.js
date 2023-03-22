@@ -213,8 +213,13 @@ function drawData() {
             if (isDataFromSocket) {
                 var n = ro * colsNum + co;
                 if (isCenterShift) {
-                    var shiftedCo = (co + colsNum / 2 ) % colsNum;
-                    n = ro * colsNum + shiftedCo;
+                    var shiftedCo = co + colsNum / 2;
+                    var shiftedRo = ro;
+                    if (shiftedCo >= colsNum) {
+                        shiftedCo -= colsNum;
+                        shiftedRo += 1;
+                    }
+                    n = shiftedRo * colsNum + shiftedCo;
                 }
                 if (n < rawData.length) {
                     gr = mapAndStrip(rawData[n], minLevel, maxLevel, 0, 255);
