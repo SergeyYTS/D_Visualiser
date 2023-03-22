@@ -47,6 +47,8 @@ function initOnLoad() {
     canvasResize();
     initDraw();
     initTimes();
+
+    window.addEventListener("resizeWindow", updateSize);
 }
 
 
@@ -469,4 +471,16 @@ function canvasResize() {
     }
     
     initDraw();
+}
+
+
+function resizeWindow() {
+    var isAutoZoom = autoZoomInput.checked;
+    if (isAutoZoom) {
+        var ww = document.width;
+        var cw = canvas.width;
+        var margin = 4;
+        var sc = ww / (cw - 2 * margin);
+        canvas.style.transform = "transform: scale(" + sc + ")";        
+    }    
 }
