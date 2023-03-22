@@ -458,6 +458,15 @@ function applayFps() {
 function canvasResize() {
     var w = rawDataColsInput.value;
     var h = rawDataRowsInput.value;
-    canvas.width = w;
-    canvas.height = h;
+    var ps = poinSizeInput.value;
+    var isDiagonalFlip = diagonalFlipInput.checked;
+
+    if (!isDiagonalFlip) {
+        canvas.width = w * ps;
+        canvas.height = h * ps;
+    } else {
+        canvas.width = h * ps;
+        canvas.height = w * ps;
+    }
+    
 }
