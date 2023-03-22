@@ -57,9 +57,9 @@ function initOnDeviceready() {
 
 // draw a single rect
 function rect(x, y, w, h) {
-    //ctx.beginPath();
+    ctx.beginPath();
     ctx.rect(x, y, w, h);
-    //ctx.closePath();
+    ctx.closePath();
     ctx.fill();
 }
 
@@ -204,9 +204,7 @@ function drawData() {
     } else {
         rowsNum = data.length;
         colsNum = data[0].length;
-    }
-
-    ctx.beginPath();    
+    }    
     
     for (var ro = 0; ro < rowsNum; ro++) {
         for (var co = 0; co < colsNum; co++) {
@@ -238,8 +236,6 @@ function drawData() {
         }
     }
 
-    ctx.closePath();
-    
     drawBorder();
 
     var nextTime = frateStartTime + frameDelay;
