@@ -469,4 +469,5 @@ function canvasResize() {
         canvas.height = w * ps;
     }
     
+    initDraw();
 }
