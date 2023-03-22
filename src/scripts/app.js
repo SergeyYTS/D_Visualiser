@@ -481,7 +481,7 @@ function resizeWindow() {
         var cw = canvas.width;
         var canvasRect = canvas.getBoundingClientRect();
         var horOffset = canvasRect.left;
-        var sc = ww / (cw + 2 * horOffset);
+        var sc = (ww - 2 * horOffset) / cw;
         canvas.style.transform = "scale(" + sc + ")";        
     }    
 }
