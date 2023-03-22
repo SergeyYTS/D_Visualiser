@@ -477,7 +477,7 @@ function canvasResize() {
 function resizeWindow() {
     var isAutoZoom = autoZoomInput.checked;
     if (isAutoZoom) {
-        var ww = document.width;
+        var ww = document.body.clientWidth;
         var cw = canvas.width;
         var margin = 4;
         var sc = ww / (cw - 2 * margin);
