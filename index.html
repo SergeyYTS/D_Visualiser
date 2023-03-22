@@ -31,11 +31,11 @@
             </br>
             <button onclick="analizeData()">Analize</button>   
             </br>
-            <label for="rows">Number of rows:</label>
+            <label for="rows">Number of rows</label>
             <!--input id="rowsNumberInput" name="rows" type="number" min="1" max="1000" value="2"-->
             <label id="rowsLabel">0</label>
             </br>
-            <label for="cols">Number of cols.:</label>
+            <label for="cols">Number of cols.</label>
             <!--input id="colsNumberInput" name="cols" type="number" min="1" max="1000" value="3"-->
             <label id="colsLabel">0</label>
             </br>
@@ -44,26 +44,26 @@
         <button onclick="connect()">Connect</button>
         <button onclick="disconnect()">Disconnect</button>
         </br>
-        <label for="rawDataCols">Columns:</label>
+        <label for="rawDataCols">Columns</label>
         <input id="rawDataColsInput" name="rawDataCols" type="number" min="1" max="2000" value="32" oninput="canvasResize();">
         </br>
-        <label for="rawDataRows">Rows:</label>
+        <label for="rawDataRows">Rows</label>
         <input id="rawDataRowsInput" name="rawDataRows" type="number" min="1" max="2000" value="256" oninput="canvasResize();">
         <hr>
         <button onclick="autoDetectLevels()">Auto detect levels</button> 
         </br>  
-        <label for="blackLevel">Black level:</label>
+        <label for="blackLevel">Black level</label>
         <input id="blackLevelInput" type="range" name="blackLevel" min="0" max="65535" value="0" oninput="this.nextElementSibling.value = this.value">
         <output id="blackLevelOutput">0</output>
         </br>
-        <label for="whiteLevel">Wite level:</label>
+        <label for="whiteLevel">Wite level</label>
         <input id="whiteLevelInput" type="range" name="whiteLevel" min="0" max="65535" value="12000" oninput="this.nextElementSibling.value = this.value">
         <output id="whiteLevelOutput">12000</output>
         </br>
         <label for="diagonalFlip">Diagonal flip</label>
         <input id="diagonalFlipInput" name="diagonalFlip" type="checkbox" checked="checked" oninput="canvasResize();">
         </br>
-        <label for="poinSize">Point size:</label>
+        <label for="poinSize">Point size</label>
         <input id="poinSizeInput" name="poinSize" type="number" min="1" max="20" value="2" oninput="canvasResize();">
         </br>
         <button onclick="drawData()">Draw</button> 
@@ -71,7 +71,7 @@
         <label for="centerShift">Shift to center</label>
         <input id="centerShiftInput" name="centerShift" type="checkbox" checked="checked">
         </br>
-        <label for="fps">FPS:</label>
+        <label for="fps">FPS</label>
         <input id="fpsInput" type="range" name="fps" min="1" max="30" value="24" oninput="this.nextElementSibling.value = this.value; applayFps();">
         <output id="fpsOutput">24</output>      
         </br>  
