@@ -330,7 +330,7 @@ function send() {
 }
 
 
-const skipBytes = 34;
+const skipBytes = 38;
 
 function processRawData(d) {
     if (!isReadyToDraw) {
