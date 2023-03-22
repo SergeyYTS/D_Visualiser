@@ -48,7 +48,7 @@ function initOnLoad() {
     initDraw();
     initTimes();
 
-    window.addEventListener("resizeWindow", updateSize);
+    window.addEventListener("resize", resizeWindow);
 }
 
 
