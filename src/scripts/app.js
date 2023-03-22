@@ -21,8 +21,8 @@ var poinSizeInput = document.getElementById("poinSizeInput");
 var rawData = [];
 var isReadyToDraw = true;
 var isDataFromSocket = false;
-var rawDataCols = document.getElementById("rawDataColsInput");
-var rawDataRows = document.getElementById("rawDataRowsInput");
+var rawDataColsInput = document.getElementById("rawDataColsInput");
+var rawDataRowsInput = document.getElementById("rawDataRowsInput");
 
 var timesLabel = document.getElementById("timesLabel");
 var times = [];
@@ -199,8 +199,8 @@ function drawData() {
     var colsNum = 0;
 
     if (isDataFromSocket) {
-        rowsNum = rawDataRows.value;
-        colsNum = rawDataCols.value;
+        rowsNum = rawDataRowsInput.value;
+        colsNum = rawDataColsInput.value;
     } else {
         rowsNum = data.length;
         colsNum = data[0].length;
