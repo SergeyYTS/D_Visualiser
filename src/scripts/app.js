@@ -479,8 +479,9 @@ function resizeWindow() {
     if (isAutoZoom) {
         var ww = document.body.clientWidth;
         var cw = canvas.width;
-        var margin = 4;
-        var sc = ww / (cw + 2 * margin);
+        var canvasRect = canvas.getBoundingClientRect();
+        var horOffset = canvasRect.left;
+        var sc = ww / (cw + 2 * horOffset);
         canvas.style.transform = "scale(" + sc + ")";        
     }    
 }
