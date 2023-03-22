@@ -36,10 +36,9 @@ var frateStartTime = 0;
 var frameDelay = 1000 / FPS;
 
 var dumpDiv = document.getElementById("dumpDiv");
-
 var fpsInput = document.getElementById("fpsInput");
-
 var centerShiftInput = document.getElementById("centerShiftInput");
+var autoZoomInput = document.getElementById("autoZoomInput");
 
 
 function initOnLoad() {
