@@ -39,6 +39,8 @@ var dumpDiv = document.getElementById("dumpDiv");
 
 var fpsInput = document.getElementById("fpsInput");
 
+var centerShiftInput = document.getElementById("centerShiftInput");
+
 
 function initOnLoad() {
     console.log("initOnLoad");  
@@ -190,6 +192,7 @@ function drawData() {
     
     const pointSize = poinSizeInput.value;
     var isDiagonalFlip = diagonalFlipInput.checked;    
+    var isCenterShift = centerShiftInput.checked;
     var minLevel = blackLevelInput.value;
     var maxLevel = whiteLevelInput.value;
     var rowsNum = 0;
@@ -208,6 +211,10 @@ function drawData() {
             var gr;
             if (isDataFromSocket) {
                 var n = ro * colsNum + co;
+                if (isCenterShift) {
+                    var shiftedRo = (ro + rowsNum / 2 ) % rowsNum;
+                    n = shiftedRo * colsNum + co;
+                }
                 if (n < rawData.length) {
                     gr = mapAndStrip(rawData[n], minLevel, maxLevel, 0, 255);
                 } else {

@@ -68,6 +68,9 @@
         </br>
         <button onclick="drawData()">Draw</button> 
         </br>
+        <label for="centerShift">Shift to center</label>
+        <input id="centerShiftInput" name="centerShift" type="checkbox" checked="checked">
+        </br>
         <label for="fps">FPS:</label>
         <input id="fpsInput" type="range" name="fps" min="1" max="30" value="24" oninput="this.nextElementSibling.value = this.value; applayFps();">
         <output id="fpsOutput">24</output>      
