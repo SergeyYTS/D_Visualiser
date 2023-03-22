@@ -480,7 +480,7 @@ function resizeWindow() {
         var ww = document.body.clientWidth;
         var cw = canvas.width;
         var margin = 4;
-        var sc = ww / (cw - 2 * margin);
+        var sc = ww / (cw + 2 * margin);
         canvas.style.transform = "scale(" + sc + ")";        
     }    
 }
