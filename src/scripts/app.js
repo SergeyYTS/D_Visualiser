@@ -206,6 +206,8 @@ function drawData() {
         colsNum = data[0].length;
     }
 
+    ctx.beginPath();    
+    
     for (var ro = 0; ro < rowsNum; ro++) {
         for (var co = 0; co < colsNum; co++) {
             var gr;
@@ -235,6 +237,8 @@ function drawData() {
             }      
         }
     }
+
+    ctx.closePath();
     
     drawBorder();
 
