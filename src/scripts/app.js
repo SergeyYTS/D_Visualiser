@@ -483,5 +483,7 @@ function resizeWindow() {
         var horOffset = canvasRect.left;
         var sc = (ww - 2 * horOffset) / cw;
         canvas.style.transform = "scale(" + sc + ")";        
-    }    
+    } else {
+        canvas.style.transform = "scale(1)";
+    } 
 }
