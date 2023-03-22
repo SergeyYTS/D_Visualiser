@@ -57,9 +57,9 @@ function initOnDeviceready() {
 
 // draw a single rect
 function rect(x, y, w, h) {
-    ctx.beginPath();
+    //ctx.beginPath();
     ctx.rect(x, y, w, h);
-    ctx.closePath();
+    //ctx.closePath();
     ctx.fill();
 }
 
