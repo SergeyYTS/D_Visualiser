@@ -80,8 +80,10 @@
         </br>  
         <label id="timesLabel">0.0 ms</label>
         </br>
-        <label for="autoZoom">Auto zoom</label>
-        <input id="autoZoomInput" name="autoZoom" type="checkbox" checked="checked" oninput="canvasScaleAdjust()">
+        <label for="autoZoomWidth">Auto zoom width</label>
+        <input id="autoZoomWidthInput" name="autoZoomWidth" type="checkbox" checked="checked" oninput="canvasScaleAdjust()">
+        <label for="autoZoomHeight">Auto zoom height</label>
+        <input id="autoZoomHeightInput" name="autoZoomHeight" type="checkbox" oninput="canvasScaleAdjust()">
         </br>
         <div id="canvasDiv">
             <canvas id="canvas" width=600 height=600 class="scalable"></canvas>
