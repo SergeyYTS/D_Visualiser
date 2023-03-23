@@ -488,7 +488,7 @@ function canvasScaleAdjust() {
         var ch = canvas.height;
         var canvasRect = canvas.getBoundingClientRect();
         var horOffset = canvasRect.left;
-        var verOffset = canvasRect.top;
+        var verOffset = horOffset;
         var scHor = 1;
         if (isAutoZoomWidthInput) {
             scHor = (ww - 2 * horOffset) / cw;
