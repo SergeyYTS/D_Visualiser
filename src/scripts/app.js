@@ -38,7 +38,8 @@ var frameDelay = 1000 / FPS;
 var dumpDiv = document.getElementById("dumpDiv");
 var fpsInput = document.getElementById("fpsInput");
 var centerShiftInput = document.getElementById("centerShiftInput");
-var autoZoomInput = document.getElementById("autoZoomInput");
+var autoZoomWidthInput = document.getElementById("autoZoomWidthInput");
+var autoZoomHeightInput = document.getElementById("autoZoomHeightInput");
 var canvasDiv = document.getElementById("canvasDiv");
 
 
@@ -478,18 +479,28 @@ function canvasResize() {
 
 
 function canvasScaleAdjust() {
-    var isAutoZoom = autoZoomInput.checked;
-    if (isAutoZoom) {
+    var isAutoZoomWidthInput = autoZoomWidthInput.checked;
+    var isautoZoomHeightInput = autoZoomHeightInput.checked;
+    if (isAutoZoomWidthInput || isautoZoomHeightInput) {
         var ww = document.body.clientWidth;
         var wh = document.body.clientHeight;
         var cw = canvas.width;
+        var ch = canvas.height;
         var canvasRect = canvas.getBoundingClientRect();
         var horOffset = canvasRect.left;
-        var sc = (ww - 2 * horOffset) / cw;
+        var verOffset = canvasRect.top;
+        var scHor = 1;
+        if (isAutoZoomWidthInput) {
+            scHor = (ww - 2 * horOffset) / cw;
+        }
+        var scVer = 1;
+        if (isautoZoomHeightInput) {
+            scVer = (wh - 2 * verOffset) / ch;
+        }
         canvasDiv.style.width = "" + ww + "px";
         canvasDiv.style.height = "" + wh + "px";
-        canvas.style.transform = "scale(" + sc + ")";        
+        canvas.style.transform = "scale(" + scHor + "," + scVer + ")"; 
     } else {
-        canvas.style.transform = "scale(1)";
+        canvas.style.transform = "scale(1,1)";
     } 
 }
