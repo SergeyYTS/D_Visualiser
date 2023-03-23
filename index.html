@@ -83,10 +83,12 @@
         <label for="autoZoom">Auto zoom</label>
         <input id="autoZoomInput" name="autoZoom" type="checkbox" checked="checked" oninput="canvasScaleAdjust()">
         </br>
-        <canvas id="canvas" width=600 height=600 class="scalable"></canvas>
+        <div id="canvasDiv" style="width: 600px; height: 600px;">
+            <canvas id="canvas" width=600 height=600 class="scalable"></canvas>
+        </div>
         </br>
         <!--button onclick="send()" >Send</button--> 
-        <div style="width: 1px; height: 100px;"></div>
+        
 
 
         <script src="src/scripts/paho-mqtt.js"></script>

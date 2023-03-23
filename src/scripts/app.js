@@ -39,6 +39,7 @@ var dumpDiv = document.getElementById("dumpDiv");
 var fpsInput = document.getElementById("fpsInput");
 var centerShiftInput = document.getElementById("centerShiftInput");
 var autoZoomInput = document.getElementById("autoZoomInput");
+var canvasDiv = document.getElementById("canvasDiv");
 
 
 function initOnLoad() {
@@ -480,10 +481,13 @@ function canvasScaleAdjust() {
     var isAutoZoom = autoZoomInput.checked;
     if (isAutoZoom) {
         var ww = document.body.clientWidth;
+        var wh = document.body.clientHeight;
         var cw = canvas.width;
         var canvasRect = canvas.getBoundingClientRect();
         var horOffset = canvasRect.left;
         var sc = (ww - 2 * horOffset) / cw;
+        canvasDiv.width = ww;
+        canvasDiv.height = wh;
         canvas.style.transform = "scale(" + sc + ")";        
     } else {
         canvas.style.transform = "scale(1)";
