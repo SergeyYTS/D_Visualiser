@@ -4,8 +4,6 @@ var ctx = canvas.getContext("2d");
 var BB = canvas.getBoundingClientRect();
 var offsetX = BB.left;
 var offsetY = BB.top;
-var WIDTH = canvas.width;
-var HEIGHT = canvas.height;
 const BACKGROUND_FILL_STILE = "#FAF7F8";
 var textArea = document.getElementById("textArea");
 var data;
@@ -44,6 +42,13 @@ var canvasDiv = document.getElementById("canvasDiv");
 
 var sectorInput = document.getElementById("sectorInput");
 
+const OPENING_ANGLE_DEGREES = 140;
+const OPENING_ANGLE_RADS = OPENING_ANGLE_DEGREES / 180 * Math.PI;
+const START_ANGLE_RADS = -Math.PI / 2 - 0.5 * OPENING_ANGLE_RADS;
+const STOP_ANGLE_RADS = -Math.PI / 2 + 0.5 * OPENING_ANGLE_RADS;
+const STEP_ANGLE_RADS = OPENING_ANGLE_RADS / colsNum;
+const OVERLAP_ANGLE_RADS = 0.2 * STEP_ANGLE_RADS;
+
 
 function initOnLoad() {
     console.log("initOnLoad");  
@@ -72,7 +77,7 @@ function rect(x, y, w, h) {
 
 // clear the canvas
 function clear() {
-    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 function drawBorder() {
@@ -91,9 +96,6 @@ function drawBorder() {
 function initDraw() {
     clear();
     drawBorder();
-    
-    //ctx.fillStyle = BACKGROUND_FILL_STILE;
-    //rect(0, 0, WIDTH, HEIGHT);
 }
 
 
@@ -254,20 +256,14 @@ function drawData() {
 
     } else { // if (!isSector)
     
-        var centerX = WIDTH / 2;    
-        var centerY = HEIGHT * 0.9;
-        var openingAngleDegrees = 140;
+        var centerX = canvas.width / 2;    
+        var centerY = canvas.height * 1.0;        
         var beltWidth = poinSizeInput.value;
-        var openingAngleRads = openingAngleDegrees / 180 * Math.PI;
-        var startAngleRads = -Math.PI / 2 - 0.5 * openingAngleRads;
-        var stopAngleRads = -Math.PI / 2 + 0.5 * openingAngleRads;
-        var stepAngleRads = openingAngleRads / colsNum;
-        var overlapAngleRads = 0.2 * stepAngleRads;
-        
+
         ctx.lineWidth = beltWidth * 1.6;
         
         for (var ro = 0; ro < rowsNum; ro++) {
-            var anRads = startAngleRads;
+            var anRads = START_ANGLE_RADS;
             for (var co = 0; co < colsNum; co++) {
             //for (var anRads = startAngleRads; anRads < stopAngleRads; anRads += stepAngleRads) {
                 //console.log("anRads = " + anRads);
@@ -299,10 +295,10 @@ function drawData() {
                 }
                 
                 ctx.strokeStyle = "rgba(" + gr + "," + gr + "," + gr + "," + 1.0 + ")";
-                ctx.ellipse(centerX, centerY, r, r, 0, anRads - overlapAngleRads, anRads + stepAngleRads + overlapAngleRads);
+                ctx.ellipse(centerX, centerY, r, r, 0, anRads - OVERLAP_ANGLE_RADS, anRads + STEP_ANGLE_RADS + OVERLAP_ANGLE_RADS);
                 ctx.stroke();
                 
-                anRads += stepAngleRads;
+                anRads += STEP_ANGLE_RADS;
             }
         }
     }
@@ -524,13 +520,18 @@ function canvasResize() {
     var h = rawDataRowsInput.value;
     var ps = poinSizeInput.value;
     var isDiagonalFlip = diagonalFlipInput.checked;
+    var isSector = sectorInput.checked;
 
-    if (!isDiagonalFlip) {
-        canvas.width = w * ps;
-        canvas.height = h * ps;
+    if (!isSector) {
+        if (!isDiagonalFlip) {
+            canvas.width = w * ps;
+            canvas.height = h * ps;
+        } else {
+            canvas.width = h * ps;
+            canvas.height = w * ps;
+        }
     } else {
-        canvas.width = h * ps;
-        canvas.height = w * ps;
+
     }
 
     canvasScaleAdjust();
