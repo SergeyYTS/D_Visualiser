@@ -46,7 +46,6 @@ const OPENING_ANGLE_DEGREES = 140;
 const OPENING_ANGLE_RADS = OPENING_ANGLE_DEGREES / 180 * Math.PI;
 const START_ANGLE_RADS = -Math.PI / 2 - 0.5 * OPENING_ANGLE_RADS;
 const STOP_ANGLE_RADS = -Math.PI / 2 + 0.5 * OPENING_ANGLE_RADS;
-const OVERLAP_ANGLE_RADS = 0.2 * STEP_ANGLE_RADS;
 
 
 function initOnLoad() {
@@ -260,6 +259,7 @@ function drawData() {
         var beltWidth = poinSizeInput.value;
 
         const STEP_ANGLE_RADS = OPENING_ANGLE_RADS / colsNum;
+        const OVERLAP_ANGLE_RADS = 0.2 * STEP_ANGLE_RADS;
 
         ctx.lineWidth = beltWidth * 1.6;
         
