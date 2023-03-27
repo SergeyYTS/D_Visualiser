@@ -42,6 +42,8 @@ var autoZoomWidthInput = document.getElementById("autoZoomWidthInput");
 var autoZoomHeightInput = document.getElementById("autoZoomHeightInput");
 var canvasDiv = document.getElementById("canvasDiv");
 
+var sectorInput = document.getElementById("sectorInput");
+
 
 function initOnLoad() {
     console.log("initOnLoad");  
@@ -209,40 +211,75 @@ function drawData() {
     } else {
         rowsNum = data.length;
         colsNum = data[0].length;
-    }    
+    }
+
+    var isSector = sectorInput.checked;
+  
+    if (!isSector) {
     
-    for (var ro = 0; ro < rowsNum; ro++) {
-        for (var co = 0; co < colsNum; co++) {
-            var gr;
-            if (isDataFromSocket) {
-                var n = ro * colsNum + co;
-                if (isCenterShift) {
-                    var shiftedCo = co;
-                    if (co >= colsNum / 2) {
-                        shiftedCo -= colsNum / 2;
-                    } else {
-                        shiftedCo += colsNum / 2;
+        for (var ro = 0; ro < rowsNum; ro++) {
+            for (var co = 0; co < colsNum; co++) {
+                var gr;
+                if (isDataFromSocket) {
+                    var n = ro * colsNum + co;
+                    if (isCenterShift) {
+                        var shiftedCo = co;
+                        if (co >= colsNum / 2) {
+                            shiftedCo -= colsNum / 2;
+                        } else {
+                            shiftedCo += colsNum / 2;
+                        }
+                        n = ro * colsNum + shiftedCo;
                     }
-                    n = ro * colsNum + shiftedCo;
-                }
-                if (n < rawData.length) {
-                    gr = mapAndStrip(rawData[n], minLevel, maxLevel, 0, 255);
+                    if (n < rawData.length) {
+                        gr = mapAndStrip(rawData[n], minLevel, maxLevel, 0, 255);
+                    } else {
+                        gr = 0;
+                        //break
+                        ro = rowsNum;
+                        co = colsNum;
+                    }
                 } else {
-                    gr = 0;
-                    //break
-                    ro = rowsNum;
-                    co = colsNum;
+                    gr = mapAndStrip(data[ro][co], minLevel, maxLevel, 0, 255);
                 }
-            } else {
-                gr = mapAndStrip(data[ro][co], minLevel, maxLevel, 0, 255);
+                
+                ctx.fillStyle = "rgba(" + gr + "," + gr + "," + gr + ")";
+                if (!isDiagonalFlip) {
+                    rect(co * pointSize, ro * pointSize, pointSize, pointSize);
+                } else {
+                    rect(ro * pointSize, co * pointSize, pointSize, pointSize);
+                }      
             }
-            
-            ctx.fillStyle = "rgba(" + gr + "," + gr + "," + gr + ")";
-            if (!isDiagonalFlip) {
-                rect(co * pointSize, ro * pointSize, pointSize, pointSize);
-            } else {
-                rect(ro * pointSize, co * pointSize, pointSize, pointSize);
-            }      
+        }
+
+    } else { // if (!isSector)
+    
+        var centerX = WIDTH / 2;    
+        var centerY = HEIGHT * 0.9;
+        var openingAngleDegrees = 140;
+        var beltWidth = poinSizeInput.value;
+        var openingAngleRads = openingAngleDegrees / 180 * Math.PI;
+        var startAngleRads = -Math.PI / 2 - 0.5 * openingAngleRads;
+        var stopAngleRads = -Math.PI / 2 + 0.5 * openingAngleRads;
+        var stepAngleRads = openingAngleRads / colsNum;
+        var overlapAngleRads = 0.2 * stepAngleRads;
+        
+        ctx.lineWidth = beltWidth * 1.6;
+        
+        for (var ro = 0; ro < rowsNum; ro++) {
+            var anRads = startAngleRads;
+            for (var co = 0; co < colsNum; co++) {
+            //for (var anRads = startAngleRads; anRads < stopAngleRads; anRads += stepAngleRads) {
+                //console.log("anRads = " + anRads);
+                var r = (ro + 1) * beltWidth;
+                ctx.beginPath();
+                var gr = mapAndStrip(data[ro][co], minLevel, maxLevel, 0, 255);
+                ctx.strokeStyle = "rgba(" + gr + "," + gr + "," + gr + "," + 1.0 + ")";
+                ctx.ellipse(centerX, centerY, r, r, 0, anRads - overlapAngleRads, anRads + stepAngleRads + overlapAngleRads);
+                ctx.stroke();
+                
+                anRads += stepAngleRads;
+            }
         }
     }
 
