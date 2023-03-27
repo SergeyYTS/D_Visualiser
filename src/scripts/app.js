@@ -273,7 +273,31 @@ function drawData() {
                 //console.log("anRads = " + anRads);
                 var r = (ro + 1) * beltWidth;
                 ctx.beginPath();
-                var gr = mapAndStrip(data[ro][co], minLevel, maxLevel, 0, 255);
+
+                var gr;
+                if (isDataFromSocket) {
+                    var n = ro * colsNum + co;
+                    /* if (isCenterShift) {
+                        var shiftedCo = co;
+                        if (co >= colsNum / 2) {
+                            shiftedCo -= colsNum / 2;
+                        } else {
+                            shiftedCo += colsNum / 2;
+                        }
+                        n = ro * colsNum + shiftedCo;
+                    } */
+                    if (n < rawData.length) {
+                        gr = mapAndStrip(rawData[n], minLevel, maxLevel, 0, 255);
+                    } else {
+                        gr = 0;
+                        //break
+                        ro = rowsNum;
+                        co = colsNum;
+                    }
+                } else {
+                    gr = mapAndStrip(data[ro][co], minLevel, maxLevel, 0, 255);
+                }
+                
                 ctx.strokeStyle = "rgba(" + gr + "," + gr + "," + gr + "," + 1.0 + ")";
                 ctx.ellipse(centerX, centerY, r, r, 0, anRads - overlapAngleRads, anRads + stepAngleRads + overlapAngleRads);
                 ctx.stroke();
