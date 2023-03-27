@@ -532,7 +532,7 @@ function canvasResize() {
             canvas.height = w * ps;
         }
     } else {
-        var ta = Math.tan(OPENING_ANGLE_RADS / 2);
+        var ta = Math.sin(OPENING_ANGLE_RADS / 2);
         canvas.width = 2* (h * ps) * ta;
         canvas.height = h * ps;
     }
