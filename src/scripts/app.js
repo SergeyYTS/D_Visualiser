@@ -63,6 +63,9 @@ const STOP_ANGLE_RADS = -Math.PI / 2 + 0.5 * OPENING_ANGLE_RADS;
 const TOPIC_RANGE = "sensor/radar/rangedoppler";
 const TOPIC_HEAT = "sensor/radar/heatmap";
 
+const HEAT_SCIP_ROWS_BEGIN = 10;
+const HEAT_SCIP_ROWS_END = 15;
+
 
 function initOnLoad() {
     console.log("initOnLoad");  
@@ -193,9 +196,9 @@ function autoDetectLevelsForRawRange() {
 
 
 function autoDetectLevelsForRawHeat() {
-    var minVal = rawDataHeat[0];
-    var maxVal = rawDataHeat[0];
-    for (var n = 0; n < rawDataHeat.length; n++) {
+    var minVal = rawDataHeat[0 + HEAT_SCIP_ROWS_BEGIN];
+    var maxVal = rawDataHeat[0 + HEAT_SCIP_ROWS_BEGIN];
+    for (var n = HEAT_SCIP_ROWS_BEGIN; n < rawDataHeat.length - HEAT_SCIP_ROWS_END; n++) {
         var d = rawDataHeat[n];
         if (d > maxVal) {
             maxVal = d;
@@ -378,7 +381,11 @@ function drawDataHeat() {
                     n = ro * colsNum + shiftedCo;
                 }
                 if (n < rawDataHeat.length) {
-                    gr = mapAndStrip(rawDataHeat[n], minLevel, maxLevel, 0, 255);
+                    if (ro < HEAT_SCIP_ROWS_BEGIN || ro > HEAT_SCIP_ROWS_END) {
+                        gr = 255;                        
+                    } else {
+                        gr = mapAndStrip(rawDataHeat[n], minLevel, maxLevel, 0, 255);
+                    }                    
                 } else {
                     gr = 0;
                     //break
