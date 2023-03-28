@@ -508,9 +508,9 @@ function processDataRange(d)
     // then couples of bytes convert to uint16
     rawDataRange = [];
     p = skipBytesForRange;
-    while (p + 4 <= d.length) {
-        rawDataRange.push(d[p + 3] * 256 * 256 * 256 + d[p + 2] * 256 * 256 + d[p + 1] * 256 + d[p]);
-        p = p + 4;
+    while (p + 2 <= d.length) {
+        rawDataRange.push(d[p + 1] * 256 + d[p]);
+        p = p + 2;
     }
     
     drawDataRange();
@@ -524,10 +524,10 @@ function processDataHeat(d)
     // skip bytes (couple of floats)
     // then couples of bytes convert to uint16
     rawDataHeat = [];
-    p = skipBytesForRange;
-    while (p + 2 <= d.length) {
-        rawDataHeat.push(d[p + 1] * 256 + d[p]);
-        p = p + 2;
+    p = skipBytesForHeat;
+    while (p + 4 <= d.length) {
+        rawDataHeat.push(d[p + 3] * 256 * 256 * 256 + d[p + 2] * 256 * 256 + d[p + 1] * 256 + d[p]);
+        p = p + 4;
     }
     
     drawDataHeat();
