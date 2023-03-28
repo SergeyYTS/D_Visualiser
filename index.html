@@ -56,15 +56,15 @@
         <label for="rawDataRangeRows">Rows</label>
         <input id="rawDataRangeRowsInput" name="rawDataRangeRows" type="number" min="1" max="2000" value="256" oninput="canvasResize();">
         </br>
-        <button onclick="autoDetectLevels()">Auto detect levels</button> 
+        <button onclick="autoDetectLevelsRange()">Auto detect levels</button> 
         </br>  
-        <label for="blackLevel">Black level</label>
-        <input id="blackLevelInput" type="range" name="blackLevel" min="0" max="65535" value="0" oninput="this.nextElementSibling.value = this.value">
-        <output id="blackLevelOutput">0</output>
+        <label for="blackLevelRange">Black level</label>
+        <input id="blackLevelRangeInput" type="range" name="blackLevelRange" min="0" max="65535" value="0" oninput="this.nextElementSibling.value = this.value">
+        <output id="blackLevelRangeOutput">0</output>
         </br>
-        <label for="whiteLevel">Wite level</label>
-        <input id="whiteLevelInput" type="range" name="whiteLevel" min="0" max="65535" value="12000" oninput="this.nextElementSibling.value = this.value">
-        <output id="whiteLevelOutput">12000</output>
+        <label for="whiteLevelRange">Wite level</label>
+        <input id="whiteLevelRangeInput" type="range" name="whiteLevelRange" min="0" max="65535" value="12000" oninput="this.nextElementSibling.value = this.value">
+        <output id="whiteLevelRangeOutput">12000</output>
         </br>
         <label for="diagonalFlip">Diagonal flip</label>
         <input id="diagonalFlipInput" name="diagonalFlip" type="checkbox" checked="checked" oninput="canvasResize();">

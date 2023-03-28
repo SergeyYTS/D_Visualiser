@@ -11,10 +11,10 @@ var textArea = document.getElementById("textArea");
 var data;
 var rowsLabel = document.getElementById("rowsLabel");
 var colsLabel = document.getElementById("colsLabel");
-var blackLevelInput = document.getElementById("blackLevelInput");
-var blackLevelOutput = document.getElementById("blackLevelOutput");
-var whiteLevelInput = document.getElementById("whiteLevelInput");
-var whiteLevelOutput = document.getElementById("whiteLevelOutput");
+var blackLevelRangeInput = document.getElementById("blackLevelRangeInput");
+var blackLevelRangeOutput = document.getElementById("blackLevelRangeOutput");
+var whiteLevelRangeInput = document.getElementById("whiteLevelRangeInput");
+var whiteLevelRangeOutput = document.getElementById("whiteLevelRangeOutput");
 var diagonalFlipInput = document.getElementById("diagonalFlipInput");
 var poinSizeInput = document.getElementById("poinSizeInput");
 
@@ -155,16 +155,16 @@ function analizeData() {
 }
 
 
-function autoDetectLevels() {
+function autoDetectLevelsRange() {
     if (!isDataFromSocket) {
         autoDetectLevelsForDump();
     } else {
-        autoDetectLevelsForRaw();
+        autoDetectLevelsForRawRange();
     }
 }
 
 
-function autoDetectLevelsForRaw() {
+function autoDetectLevelsForRawRange() {
     var minVal = rawDataRange[0];
     var maxVal = rawDataRange[0];
     for (var n = 0; n < rawDataRange.length; n++) {
@@ -177,11 +177,11 @@ function autoDetectLevelsForRaw() {
         }        
     }
     
-    blackLevelInput.value = minVal;  
-    blackLevelOutput.value = minVal;
+    blackLevelRangeInput.value = minVal;  
+    blackLevelRangeOutput.value = minVal;
     
-    whiteLevelInput.value = maxVal;
-    whiteLevelOutput.value = maxVal;  
+    whiteLevelRangeInput.value = maxVal;
+    whiteLevelRangeOutput.value = maxVal;  
 }
 
 
@@ -202,11 +202,11 @@ function autoDetectLevelsForDump() {
         }
     }
     
-    blackLevelInput.value = minVal;  
-    blackLevelOutput.value = minVal;
+    blackLevelRangeInput.value = minVal;  
+    blackLevelRangeOutput.value = minVal;
     
-    whiteLevelInput.value = maxVal;
-    whiteLevelOutput.value = maxVal;  
+    whiteLevelRangeInput.value = maxVal;
+    whiteLevelRangeOutput.value = maxVal;  
 }
 
 
@@ -233,8 +233,8 @@ function drawDataRange() {
     const pointSize = poinSizeInput.value;
     var isDiagonalFlip = diagonalFlipInput.checked;    
     var isCenterShift = centerShiftInput.checked;
-    var minLevel = blackLevelInput.value;
-    var maxLevel = whiteLevelInput.value;
+    var minLevel = blackLevelRangeInput.value;
+    var maxLevel = whiteLevelRangeInput.value;
     var rowsNum = 0;
     var colsNum = 0;
 
