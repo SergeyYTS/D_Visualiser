@@ -89,6 +89,12 @@ function clearRange() {
     ctx.clearRect(0, 0, canvasRange.width, canvasRange.height);
 }
 
+
+function clearHeat() {
+    ctx.clearRect(0, 0, canvasHeat.width, canvasHeat.height);
+}
+
+
 function drawBorderRange() {
     ctx.beginPath();
     ctx.moveTo(0, 0); 
@@ -102,9 +108,25 @@ function drawBorderRange() {
 }
 
 
+function drawBorderHeat() {
+    ctx.beginPath();
+    ctx.moveTo(0, 0); 
+    ctx.lineTo(canvasHeat.width, 0);
+    ctx.lineTo(canvasHeat.width, canvasHeat.height);
+    ctx.lineTo(0, canvasHeat.height);
+    ctx.lineTo(0, 0); 
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "blue";
+    ctx.stroke(); 
+}
+
+
 function initDraw() {
-    clear();
-    drawBorder();
+    clearRange();
+    drawBorderRange();
+
+    clearHeat();
+    drawBorderHeat();
 }
 
 
