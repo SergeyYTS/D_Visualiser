@@ -227,7 +227,7 @@ function mapAndStrip(val, fromMin, fromMax, toMin, toMax) {
 function drawDataRange() {
     frateStartTime = Date.now();
 
-    clear();
+    clearRange();
 
     skippedFrames = skippedCounter;
     skippedCounter = 0;
@@ -301,7 +301,7 @@ function drawDataRange() {
 function drawDataHeat() {
     frateStartTime = Date.now();
 
-    clear();
+    clearHeat();
 
     skippedFrames = skippedCounter;
     skippedCounter = 0;
