@@ -80,7 +80,7 @@
         <label for="rawDataHeatRows">Rows</label>
         <input id="rawDataHeatRowsInput" name="rawDataHeatRows" type="number" min="1" max="2000" value="256" oninput="canvasResize();">        
         </br>
-        <button onclick="autoDetectLevelsHeat()">Auto detect levels</button> 
+        <button onclick="autoDetectLevelsForRawHeat()">Auto detect levels</button> 
         </br>  
         <label for="blackLevelHeat">Black level</label>
         <input id="blackLevelHeatInput" type="range" name="blackLevelHeat" min="0" max="65535" value="0" oninput="this.nextElementSibling.value = this.value">
