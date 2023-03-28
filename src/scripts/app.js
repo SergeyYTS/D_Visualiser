@@ -679,7 +679,7 @@ function canvasScaleAdjust() {
             scrVer = (wh - 2 * verOffset) / crh;
         }
         canvasRangeDiv.style.width = "" + ww + "px";
-        canvasRangeDiv.style.height = "" + wh + "px";
+        canvasRangeDiv.style.height = "" + crh + "px";
         canvasRange.style.transform = "scale(" + scrHor + "," + scrVer + ")";
         
 
@@ -695,7 +695,7 @@ function canvasScaleAdjust() {
             schVer = (wh - 2 * verOffset) / chh;
         }
         canvasHeatDiv.style.width = "" + ww + "px";
-        canvasHeatDiv.style.height = "" + wh + "px";
+        canvasHeatDiv.style.height = "" + chh + "px";
         canvasHeat.style.transform = "scale(" + schHor + "," + schVer + ")";        
     } else {
         canvasRange.style.transform = "scale(1,1)";
