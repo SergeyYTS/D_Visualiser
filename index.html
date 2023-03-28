@@ -46,14 +46,25 @@
             </br>
         </div>        
         <hr>
-        <button onclick="connect()">Connect</button>
-        <button onclick="disconnect()">Disconnect</button>
+        <h1>Range</h1>
+        <button onclick="subscribeRange()">Subscribe</button>
+        <button onclick="unsubscribeRange()">Unsubscribe</button>
         </br>
-        <label for="rawDataCols">Columns</label>
-        <input id="rawDataColsInput" name="rawDataCols" type="number" min="1" max="2000" value="32" oninput="canvasResize();">
+        <label for="rawDataRangeCols">Columns</label>
+        <input id="rawDataRangeColsInput" name="rawDataRangeCols" type="number" min="1" max="2000" value="32" oninput="canvasResize();">
         </br>
-        <label for="rawDataRows">Rows</label>
-        <input id="rawDataRowsInput" name="rawDataRows" type="number" min="1" max="2000" value="256" oninput="canvasResize();">
+        <label for="rawDataRangeRows">Rows</label>
+        <input id="rawDataRangeRowsInput" name="rawDataRangeRows" type="number" min="1" max="2000" value="256" oninput="canvasResize();">
+        <hr>
+        <h1>Heat</h1>
+        <button onclick="subscribeHeat()">Subscribe</button>
+        <button onclick="unsubscribeHeat()">Unsubscribe</button>
+        </br>
+        <label for="rawDataHeatCols">Columns</label>
+        <input id="rawDataHeatColsInput" name="rawDataHeatCols" type="number" min="1" max="2000" value="32" oninput="canvasResize();">
+        </br>
+        <label for="rawDataHeatRows">Rows</label>
+        <input id="rawDataHeatRowsInput" name="rawDataHeatRows" type="number" min="1" max="2000" value="256" oninput="canvasResize();">        
         <hr>
         <button onclick="autoDetectLevels()">Auto detect levels</button> 
         </br>  
@@ -88,9 +99,14 @@
         <label for="sector">Sector</label>
         <input id="sectorInput" name="sector" type="checkbox" oninput="canvasResize();">
         </br>
-        <div id="canvasDiv">
-            <canvas id="canvas" width=600 height=600 class="scalable"></canvas>
-        </div>
+        <div>
+            <div id="canvasRangeDiv">
+                <canvas id="canvasRange" width=600 height=600 class="scalable"></canvas>
+            </div>
+            <div id="canvasHeatDiv">
+                <canvas id="canvasHeat" width=600 height=600 class="scalable"></canvas>
+            </div>
+        </div>        
         <hr>
         </br>
         <!--button onclick="send()" >Send</button--> 

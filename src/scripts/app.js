@@ -1,9 +1,9 @@
-// get canvas related references
-var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d");
-var BB = canvas.getBoundingClientRect();
-var offsetX = BB.left;
-var offsetY = BB.top;
+// get canvas related referencescanvas
+var canvasRange = document.getElementById("canvasRange");
+var ctxRange = canvasRange.getContext("2d");
+//var BB = canvasRange.getBoundingClientRect();
+//var offsetX = BB.left;
+//var offsetY = BB.top;
 const BACKGROUND_FILL_STILE = "#FAF7F8";
 var textArea = document.getElementById("textArea");
 var data;
@@ -16,11 +16,16 @@ var whiteLevelOutput = document.getElementById("whiteLevelOutput");
 var diagonalFlipInput = document.getElementById("diagonalFlipInput");
 var poinSizeInput = document.getElementById("poinSizeInput");
 
-var rawData = [];
+var rawDataRange = [];
+var rawDataHeat = [];
 var isReadyToDraw = true;
 var isDataFromSocket = false;
-var rawDataColsInput = document.getElementById("rawDataColsInput");
-var rawDataRowsInput = document.getElementById("rawDataRowsInput");
+
+var rawDataRangeColsInput = document.getElementById("rawDataRangeColsInput");
+var rawDataRangeRowsInput = document.getElementById("rawDataRangeRowsInput");
+
+var rawDataHeatColsInput = document.getElementById("rawDataHeatColsInput");
+var rawDataHeatRowsInput = document.getElementById("rawDataHeatRowsInput");
 
 var timesLabel = document.getElementById("timesLabel");
 var times = [];
@@ -38,7 +43,8 @@ var fpsInput = document.getElementById("fpsInput");
 var centerShiftInput = document.getElementById("centerShiftInput");
 var autoZoomWidthInput = document.getElementById("autoZoomWidthInput");
 var autoZoomHeightInput = document.getElementById("autoZoomHeightInput");
-var canvasDiv = document.getElementById("canvasDiv");
+var canvasRangeDiv = document.getElementById("canvasRangeDiv");
+var canvasHeatDiv = document.getElementById("canvasHeatDiv");
 
 var sectorInput = document.getElementById("sectorInput");
 
@@ -46,6 +52,9 @@ const OPENING_ANGLE_DEGREES = 140;
 const OPENING_ANGLE_RADS = OPENING_ANGLE_DEGREES / 180 * Math.PI;
 const START_ANGLE_RADS = -Math.PI / 2 - 0.5 * OPENING_ANGLE_RADS;
 const STOP_ANGLE_RADS = -Math.PI / 2 + 0.5 * OPENING_ANGLE_RADS;
+
+const TOPIC_RANGE = "sensor/radar/rangedoppler";
+const TOPIC_HEAT = "sensor/radar/heatmap";
 
 
 function initOnLoad() {
@@ -56,6 +65,8 @@ function initOnLoad() {
     initTimes();
 
     window.addEventListener("resize", canvasScaleAdjust);
+
+    connect();
 }
 
 
@@ -74,16 +85,16 @@ function rect(x, y, w, h) {
 
 
 // clear the canvas
-function clear() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+function clearRange() {
+    ctx.clearRect(0, 0, canvasRange.width, canvasRange.height);
 }
 
-function drawBorder() {
+function drawBorderRange() {
     ctx.beginPath();
     ctx.moveTo(0, 0); 
-    ctx.lineTo(canvas.width, 0);
-    ctx.lineTo(canvas.width, canvas.height);
-    ctx.lineTo(0, canvas.height);
+    ctx.lineTo(canvasRange.width, 0);
+    ctx.lineTo(canvasRange.width, canvasRange.height);
+    ctx.lineTo(0, canvasRange.height);
     ctx.lineTo(0, 0); 
     ctx.lineWidth = 1;
     ctx.strokeStyle = "blue";
@@ -132,10 +143,10 @@ function autoDetectLevels() {
 
 
 function autoDetectLevelsForRaw() {
-    var minVal = rawData[0];
-    var maxVal = rawData[0];
-    for (var n = 0; n < rawData.length; n++) {
-        var d = rawData[n];
+    var minVal = rawDataRange[0];
+    var maxVal = rawDataRange[0];
+    for (var n = 0; n < rawDataRange.length; n++) {
+        var d = rawDataRange[n];
         if (d > maxVal) {
             maxVal = d;
         }
@@ -189,7 +200,7 @@ function mapAndStrip(val, fromMin, fromMax, toMin, toMax) {
 }
 
 
-function drawData() {
+function drawDataRange() {
     frateStartTime = Date.now();
 
     clear();
@@ -206,101 +217,133 @@ function drawData() {
     var colsNum = 0;
 
     if (isDataFromSocket) {
-        rowsNum = rawDataRowsInput.value;
-        colsNum = rawDataColsInput.value;
+        rowsNum = rawDataRangeRowsInput.value;
+        colsNum = rawDataRangeColsInput.value;
+    } else {
+        rowsNum = data.length;
+        colsNum = data[0].length;
+    }
+    
+    for (var ro = 0; ro < rowsNum; ro++) {
+        for (var co = 0; co < colsNum; co++) {
+            var gr;
+            if (isDataFromSocket) {
+                var n = ro * colsNum + co;
+                if (isCenterShift) {
+                    var shiftedCo = co;
+                    if (co >= colsNum / 2) {
+                        shiftedCo -= colsNum / 2;
+                    } else {
+                        shiftedCo += colsNum / 2;
+                    }
+                    n = ro * colsNum + shiftedCo;
+                }
+                if (n < rawDataRange.length) {
+                    gr = mapAndStrip(rawDataRange[n], minLevel, maxLevel, 0, 255);
+                } else {
+                    gr = 0;
+                    //break
+                    ro = rowsNum;
+                    co = colsNum;
+                }
+            } else {
+                gr = mapAndStrip(data[ro][co], minLevel, maxLevel, 0, 255);
+            }
+            
+            ctx.fillStyle = "rgba(" + gr + "," + gr + "," + gr + ")";
+            if (!isDiagonalFlip) {
+                rect(co * pointSize, ro * pointSize, pointSize, pointSize);
+            } else {
+                rect(ro * pointSize, co * pointSize, pointSize, pointSize);
+            }      
+        }
+    }
+
+    drawBorder();
+
+    var nextTime = frateStartTime + frameDelay;
+    var nowTime = Date.now();
+    if (nowTime >= nextTime) {
+        isReadyToDraw = true;
+    } else {
+        var restTime = nextTime - nowTime;
+        setTimeout(() => {
+            isReadyToDraw = true;
+        }, restTime);  
+    }
+}
+
+
+function drawDataHeat() {
+    frateStartTime = Date.now();
+
+    clear();
+
+    skippedFrames = skippedCounter;
+    skippedCounter = 0;
+    
+    const pointSize = poinSizeInput.value;
+    var isDiagonalFlip = diagonalFlipInput.checked;    
+    var isCenterShift = centerShiftInput.checked;
+    var minLevel = blackLevelInput.value;
+    var maxLevel = whiteLevelInput.value;
+    var rowsNum = 0;
+    var colsNum = 0;
+
+    if (isDataFromSocket) {
+        rowsNum = rawDataHeatRowsInput.value;
+        colsNum = rawDataHeatColsInput.value;
     } else {
         rowsNum = data.length;
         colsNum = data[0].length;
     }
 
-    var isSector = sectorInput.checked;
-  
-    if (!isSector) {
+    var centerX = canvasHeat.width / 2;    
+    var centerY = canvasHeat.height * 1.0;        
+    var beltWidth = poinSizeInput.value;
+
+    const STEP_ANGLE_RADS = OPENING_ANGLE_RADS / colsNum;
+    const OVERLAP_ANGLE_RADS = 0.2 * STEP_ANGLE_RADS;
+
+    ctx.lineWidth = beltWidth * 1.6;
     
-        for (var ro = 0; ro < rowsNum; ro++) {
-            for (var co = 0; co < colsNum; co++) {
-                var gr;
-                if (isDataFromSocket) {
-                    var n = ro * colsNum + co;
-                    if (isCenterShift) {
-                        var shiftedCo = co;
-                        if (co >= colsNum / 2) {
-                            shiftedCo -= colsNum / 2;
-                        } else {
-                            shiftedCo += colsNum / 2;
-                        }
-                        n = ro * colsNum + shiftedCo;
-                    }
-                    if (n < rawData.length) {
-                        gr = mapAndStrip(rawData[n], minLevel, maxLevel, 0, 255);
+    for (var ro = 0; ro < rowsNum; ro++) {
+        var anRads = START_ANGLE_RADS;
+        for (var co = 0; co < colsNum; co++) {
+        //for (var anRads = startAngleRads; anRads < stopAngleRads; anRads += stepAngleRads) {
+            //console.log("anRads = " + anRads);
+            var r = (ro + 1) * beltWidth;
+            ctx.beginPath();
+
+            var gr;
+            if (isDataFromSocket) {
+                var n = ro * colsNum + co;
+                if (isCenterShift) {
+                    var shiftedCo = co;
+                    if (co >= colsNum / 2) {
+                        shiftedCo -= colsNum / 2;
                     } else {
-                        gr = 0;
-                        //break
-                        ro = rowsNum;
-                        co = colsNum;
+                        shiftedCo += colsNum / 2;
                     }
-                } else {
-                    gr = mapAndStrip(data[ro][co], minLevel, maxLevel, 0, 255);
+                    n = ro * colsNum + shiftedCo;
                 }
-                
-                ctx.fillStyle = "rgba(" + gr + "," + gr + "," + gr + ")";
-                if (!isDiagonalFlip) {
-                    rect(co * pointSize, ro * pointSize, pointSize, pointSize);
+                if (n < rawDataHeat.length) {
+                    gr = mapAndStrip(rawDataHeat[n], minLevel, maxLevel, 0, 255);
                 } else {
-                    rect(ro * pointSize, co * pointSize, pointSize, pointSize);
-                }      
-            }
-        }
-
-    } else { // if (!isSector)
-    
-        var centerX = canvas.width / 2;    
-        var centerY = canvas.height * 1.0;        
-        var beltWidth = poinSizeInput.value;
-
-        const STEP_ANGLE_RADS = OPENING_ANGLE_RADS / colsNum;
-        const OVERLAP_ANGLE_RADS = 0.2 * STEP_ANGLE_RADS;
-
-        ctx.lineWidth = beltWidth * 1.6;
-        
-        for (var ro = 0; ro < rowsNum; ro++) {
-            var anRads = START_ANGLE_RADS;
-            for (var co = 0; co < colsNum; co++) {
-            //for (var anRads = startAngleRads; anRads < stopAngleRads; anRads += stepAngleRads) {
-                //console.log("anRads = " + anRads);
-                var r = (ro + 1) * beltWidth;
-                ctx.beginPath();
-
-                var gr;
-                if (isDataFromSocket) {
-                    var n = ro * colsNum + co;
-                    if (isCenterShift) {
-                        var shiftedCo = co;
-                        if (co >= colsNum / 2) {
-                            shiftedCo -= colsNum / 2;
-                        } else {
-                            shiftedCo += colsNum / 2;
-                        }
-                        n = ro * colsNum + shiftedCo;
-                    }
-                    if (n < rawData.length) {
-                        gr = mapAndStrip(rawData[n], minLevel, maxLevel, 0, 255);
-                    } else {
-                        gr = 0;
-                        //break
-                        ro = rowsNum;
-                        co = colsNum;
-                    }
-                } else {
-                    gr = mapAndStrip(data[ro][co], minLevel, maxLevel, 0, 255);
+                    gr = 0;
+                    //break
+                    ro = rowsNum;
+                    co = colsNum;
                 }
-                
-                ctx.strokeStyle = "rgba(" + gr + "," + gr + "," + gr + "," + 1.0 + ")";
-                ctx.ellipse(centerX, centerY, r, r, 0, anRads - OVERLAP_ANGLE_RADS, anRads + STEP_ANGLE_RADS + OVERLAP_ANGLE_RADS);
-                ctx.stroke();
-                
-                anRads += STEP_ANGLE_RADS;
+            } else {
+                gr = mapAndStrip(data[ro][co], minLevel, maxLevel, 0, 255);
             }
+            
+            ctx.strokeStyle = "rgba(" + gr + "," + gr + "," + gr + "," + 1.0 + ")";
+            ctx.ellipse(centerX, centerY, r, r, 0, anRads - OVERLAP_ANGLE_RADS, anRads + STEP_ANGLE_RADS + OVERLAP_ANGLE_RADS);
+            ctx.stroke();
+            
+            anRads += STEP_ANGLE_RADS;
         }
     }
 
@@ -378,11 +421,31 @@ function onConnect() {
     //console.log("onMessageArrived: " + message.payloadBytes);
     timeMeasuring();
     //processRawData(message.payloadBytes);
-    setTimeout(() => {processRawData(message.payloadBytes);}, 1);    
+    setTimeout(() => {processRawData(message.topic, message.payloadBytes);}, 1);    
   }
   // QOS 0 –  Send Once, not acknowledged
-  client.subscribe("sensor/radar/rangedoppler", { qos: 0 });
 }
+
+
+function subscribeRange() {
+    client.subscribe(TOPIC_RANGE, { qos: 0 });
+}
+
+
+function subscribeHeat() {
+  client.subscribe(TOPIC_HEAT, { qos: 0 });
+}
+
+
+function unsubscribeRange() {
+    client.unsubscribe(TOPIC_RANGE, { qos: 0 });
+}
+
+
+function unsubscribeHeat() {
+  client.unsubscribe(TOPIC_HEAT, { qos: 0 });
+}
+
 
 function onFailure(err) {
   console.log('on failure', JSON.stringify(err));
@@ -397,26 +460,53 @@ function send() {
 }
 
 
-var skipBytes = 36;
-
-function processRawData(d) {
+function processRawData(topic, d) {
     if (!isReadyToDraw) {
         skippedCounter++;
         return;
     }
     isReadyToDraw = false;
 
+    if (topic == TOPIC_RANGE) {
+        processDataRange(d);
+    }
+    if (topic == TOPIC_HEAT) {
+        processDataHeat(d);
+    }
+}
+
+
+var skipBytesForRange = 36;
+
+function processDataRange(d)
+{
     // skip bytes (couple of floats)
     // then couples of bytes convert to uint16
-    rawData = [];
-    p = skipBytes;
+    rawDataRange = [];
+    p = skipBytesForRange;
     while (p + 2 <= d.length) {
-        rawData.push(d[p + 1] * 256 + d[p]);
+        rawDataRange.push(d[p + 1] * 256 + d[p]);
         p = p + 2;
     }
-    //console.log("rawData: length = " + rawData.length);
-    //console.log("rawData: " + rawData);
-    drawData();
+    
+    drawDataRange();
+}
+
+
+var skipBytesForHeat = 36;
+
+function processDataHeat(d)
+{
+    // skip bytes (couple of floats)
+    // then couples of bytes convert to uint16
+    rawDataHeat = [];
+    p = skipBytesForRange;
+    while (p + 2 <= d.length) {
+        rawDataHeat.push(d[p + 1] * 256 + d[p]);
+        p = p + 2;
+    }
+    
+    drawDataHeat();
 }
 
 
@@ -517,25 +607,24 @@ function applayFps() {
 
 
 function canvasResize() {
-    var w = rawDataColsInput.value;
-    var h = rawDataRowsInput.value;
+    var wr = rawDataRangeColsInput.value;
+    var hr = rawDataRangeRowsInput.value;
     var ps = poinSizeInput.value;
     var isDiagonalFlip = diagonalFlipInput.checked;
-    var isSector = sectorInput.checked;
-
-    if (!isSector) {
-        if (!isDiagonalFlip) {
-            canvas.width = w * ps;
-            canvas.height = h * ps;
-        } else {
-            canvas.width = h * ps;
-            canvas.height = w * ps;
-        }
+        
+    if (!isDiagonalFlip) {
+        canvasRange.width = wr * ps;
+        canvasRange.height = hr * ps;
     } else {
-        var ta = Math.sin(OPENING_ANGLE_RADS / 2);
-        canvas.width = 2 * (h * ps) * ta + 2 * ps;
-        canvas.height = h * ps + 2 * ps;
+        canvasRange.width = hr * ps;
+        canvasRange.height = wr * ps;
     }
+
+    var hh = rawDataHeatRowsInput.value;
+    var ta = Math.sin(OPENING_ANGLE_RADS / 2);
+    canvasHeat.width = 2 * (hh * ps) * ta + 2 * ps;
+    canvasHeat.height = hh * ps + 2 * ps;
+
 
     canvasScaleAdjust();
     
@@ -549,23 +638,43 @@ function canvasScaleAdjust() {
     if (isAutoZoomWidthInput || isautoZoomHeightInput) {
         var ww = document.body.clientWidth;
         var wh = document.body.clientHeight;
-        var cw = canvas.width;
-        var ch = canvas.height;
-        var canvasRect = canvas.getBoundingClientRect();
-        var horOffset = canvasRect.left;
+
+        var crw = canvasRange.width;
+        var crh = canvasRange.height;
+        var canvasRangeRect = canvasRange.getBoundingClientRect();
+
+        var horOffset = canvasRangeRect.left;
         var verOffset = horOffset;
-        var scHor = 1;
+
+        var scrHor = 1;
         if (isAutoZoomWidthInput) {
-            scHor = (ww - 2 * horOffset) / cw;
+            scrHor = (ww - 2 * horOffset) / crw;
         }
-        var scVer = 1;
+        var scrVer = 1;
         if (isautoZoomHeightInput) {
-            scVer = (wh - 2 * verOffset) / ch;
+            scrVer = (wh - 2 * verOffset) / crh;
         }
-        canvasDiv.style.width = "" + ww + "px";
-        canvasDiv.style.height = "" + wh + "px";
-        canvas.style.transform = "scale(" + scHor + "," + scVer + ")"; 
+        canvasRangeDiv.style.width = "" + ww + "px";
+        canvasRangeDiv.style.height = "" + wh + "px";
+        canvasRange.style.transform = "scale(" + scrHor + "," + scrVer + ")";
+        
+
+        var chw = canvasHeat.width;
+        var chh = canvasHeat.height;
+        
+        var schHor = 1;
+        if (isAutoZoomWidthInput) {
+            schHor = (ww - 2 * horOffset) / chw;
+        }
+        var schVer = 1;
+        if (isautoZoomHeightInput) {
+            schVer = (wh - 2 * verOffset) / chh;
+        }
+        canvasHeatDiv.style.width = "" + ww + "px";
+        canvasHeatDiv.style.height = "" + wh + "px";
+        canvasHeat.style.transform = "scale(" + schHor + "," + schVer + ")";        
     } else {
-        canvas.style.transform = "scale(1,1)";
+        canvasRange.style.transform = "scale(1,1)";
+        canvasHeat.style.transform = "scale(1,1)";
     } 
 }
