@@ -462,6 +462,7 @@ var connectOptions = {
 
 function connect() {
   try {
+    var clientIdUnic = clientId + "_" + Date.now();
     client = new Paho.Client('192.168.0.18', 5883, '', clientId);
     connectOptions.userName = userName;
     client.connect(connectOptions);
