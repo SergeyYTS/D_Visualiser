@@ -381,7 +381,7 @@ function drawDataHeat() {
                     n = ro * colsNum + shiftedCo;
                 }
                 if (n < rawDataHeat.length) {
-                    if (ro < HEAT_SCIP_ROWS_BEGIN || ro > HEAT_SCIP_ROWS_END) {
+                    if (ro < HEAT_SCIP_ROWS_BEGIN || ro > rowsNum - HEAT_SCIP_ROWS_END) {
                         gr = 255;                        
                     } else {
                         gr = mapAndStrip(rawDataHeat[n], minLevel, maxLevel, 0, 255);
