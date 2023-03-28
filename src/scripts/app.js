@@ -462,12 +462,12 @@ function subscribeHeat() {
 
 
 function unsubscribeRange() {
-    client.unsubscribe(TOPIC_RANGE, { qos: 0 });
+    client.unsubscribe(TOPIC_RANGE);
 }
 
 
 function unsubscribeHeat() {
-  client.unsubscribe(TOPIC_HEAT, { qos: 0 });
+  client.unsubscribe(TOPIC_HEAT);
 }
 
 
