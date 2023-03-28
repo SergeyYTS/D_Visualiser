@@ -283,7 +283,7 @@ function drawDataRange() {
         }
     }
 
-    drawBorder();
+    drawBorderRange();
 
     var nextTime = frateStartTime + frameDelay;
     var nowTime = Date.now();
@@ -371,7 +371,7 @@ function drawDataHeat() {
         }
     }
 
-    drawBorder();
+    drawBorderHeat();
 
     var nextTime = frateStartTime + frameDelay;
     var nowTime = Date.now();
