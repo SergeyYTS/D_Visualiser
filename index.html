@@ -83,11 +83,11 @@
         <button onclick="autoDetectLevelsForRawHeat()">Auto detect levels</button> 
         </br>  
         <label for="blackLevelHeat">Black level</label>
-        <input id="blackLevelHeatInput" type="range" name="blackLevelHeat" min="0" max="65535" value="0" oninput="this.nextElementSibling.value = this.value">
+        <input id="blackLevelHeatInput" type="range" name="blackLevelHeat" min="0" max="4294967295" value="0" oninput="this.nextElementSibling.value = this.value">
         <output id="blackLevelHeatOutput">0</output>
         </br>
         <label for="whiteLevelHeat">Wite level</label>
-        <input id="whiteLevelHeatInput" type="range" name="whiteLevelHeat" min="0" max="65535" value="12000" oninput="this.nextElementSibling.value = this.value">
+        <input id="whiteLevelHeatInput" type="range" name="whiteLevelHeat" min="0" max="4294967295" value="2000000000" oninput="this.nextElementSibling.value = this.value">
         <output id="whiteLevelHeatOutput">12000</output>
         </br>
         <hr>        
