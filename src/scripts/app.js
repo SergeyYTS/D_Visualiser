@@ -64,7 +64,7 @@ const TOPIC_RANGE = "sensor/radar/rangedoppler";
 const TOPIC_HEAT = "sensor/radar/heatmap";
 
 const HEAT_SCIP_ROWS_BEGIN = 10;
-const HEAT_SCIP_ROWS_END = 15;
+const HEAT_SCIP_ROWS_END = 18;
 
 
 function initOnLoad() {
