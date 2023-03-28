@@ -1,6 +1,8 @@
 // get canvas related referencescanvas
 var canvasRange = document.getElementById("canvasRange");
 var ctxRange = canvasRange.getContext("2d");
+var canvasHeat = document.getElementById("canvasHeat");
+var ctxHeat = canvasHeat.getContext("2d");
 //var BB = canvasRange.getBoundingClientRect();
 //var offsetX = BB.left;
 //var offsetY = BB.top;
@@ -76,7 +78,7 @@ function initOnDeviceready() {
 
 
 // draw a single rect
-function rect(x, y, w, h) {
+function rect(ctx, x, y, w, h) {
     ctx.beginPath();
     ctx.rect(x, y, w, h);
     ctx.closePath();
@@ -86,38 +88,38 @@ function rect(x, y, w, h) {
 
 // clear the canvas
 function clearRange() {
-    ctx.clearRect(0, 0, canvasRange.width, canvasRange.height);
+    ctxRange.clearRect(0, 0, canvasRange.width, canvasRange.height);
 }
 
 
 function clearHeat() {
-    ctx.clearRect(0, 0, canvasHeat.width, canvasHeat.height);
+    ctxHeat.clearRect(0, 0, canvasHeat.width, canvasHeat.height);
 }
 
 
 function drawBorderRange() {
-    ctx.beginPath();
-    ctx.moveTo(0, 0); 
-    ctx.lineTo(canvasRange.width, 0);
-    ctx.lineTo(canvasRange.width, canvasRange.height);
-    ctx.lineTo(0, canvasRange.height);
-    ctx.lineTo(0, 0); 
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = "blue";
-    ctx.stroke(); 
+    ctxRange.beginPath();
+    ctxRange.moveTo(0, 0); 
+    ctxRange.lineTo(canvasRange.width, 0);
+    ctxRange.lineTo(canvasRange.width, canvasRange.height);
+    ctxRange.lineTo(0, canvasRange.height);
+    ctxRange.lineTo(0, 0); 
+    ctxRange.lineWidth = 1;
+    ctxRange.strokeStyle = "blue";
+    ctxRange.stroke(); 
 }
 
 
 function drawBorderHeat() {
-    ctx.beginPath();
-    ctx.moveTo(0, 0); 
-    ctx.lineTo(canvasHeat.width, 0);
-    ctx.lineTo(canvasHeat.width, canvasHeat.height);
-    ctx.lineTo(0, canvasHeat.height);
-    ctx.lineTo(0, 0); 
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = "blue";
-    ctx.stroke(); 
+    ctxHeat.beginPath();
+    ctxHeat.moveTo(0, 0); 
+    ctxHeat.lineTo(canvasHeat.width, 0);
+    ctxHeat.lineTo(canvasHeat.width, canvasHeat.height);
+    ctxHeat.lineTo(0, canvasHeat.height);
+    ctxHeat.lineTo(0, 0); 
+    ctxHeat.lineWidth = 1;
+    ctxHeat.strokeStyle = "blue";
+    ctxHeat.stroke(); 
 }
 
 
@@ -272,11 +274,11 @@ function drawDataRange() {
                 gr = mapAndStrip(data[ro][co], minLevel, maxLevel, 0, 255);
             }
             
-            ctx.fillStyle = "rgba(" + gr + "," + gr + "," + gr + ")";
+            ctxRange.fillStyle = "rgba(" + gr + "," + gr + "," + gr + ")";
             if (!isDiagonalFlip) {
-                rect(co * pointSize, ro * pointSize, pointSize, pointSize);
+                rect(ctxRange, co * pointSize, ro * pointSize, pointSize, pointSize);
             } else {
-                rect(ro * pointSize, co * pointSize, pointSize, pointSize);
+                rect(ctxRange, ro * pointSize, co * pointSize, pointSize, pointSize);
             }      
         }
     }
@@ -327,7 +329,7 @@ function drawDataHeat() {
     const STEP_ANGLE_RADS = OPENING_ANGLE_RADS / colsNum;
     const OVERLAP_ANGLE_RADS = 0.2 * STEP_ANGLE_RADS;
 
-    ctx.lineWidth = beltWidth * 1.6;
+    ctxHeat.lineWidth = beltWidth * 1.6;
     
     for (var ro = 0; ro < rowsNum; ro++) {
         var anRads = START_ANGLE_RADS;
@@ -335,7 +337,7 @@ function drawDataHeat() {
         //for (var anRads = startAngleRads; anRads < stopAngleRads; anRads += stepAngleRads) {
             //console.log("anRads = " + anRads);
             var r = (ro + 1) * beltWidth;
-            ctx.beginPath();
+            ctxHeat.beginPath();
 
             var gr;
             if (isDataFromSocket) {
@@ -361,9 +363,9 @@ function drawDataHeat() {
                 gr = mapAndStrip(data[ro][co], minLevel, maxLevel, 0, 255);
             }
             
-            ctx.strokeStyle = "rgba(" + gr + "," + gr + "," + gr + "," + 1.0 + ")";
-            ctx.ellipse(centerX, centerY, r, r, 0, anRads - OVERLAP_ANGLE_RADS, anRads + STEP_ANGLE_RADS + OVERLAP_ANGLE_RADS);
-            ctx.stroke();
+            ctxHeat.strokeStyle = "rgba(" + gr + "," + gr + "," + gr + "," + 1.0 + ")";
+            ctxHeat.ellipse(centerX, centerY, r, r, 0, anRads - OVERLAP_ANGLE_RADS, anRads + STEP_ANGLE_RADS + OVERLAP_ANGLE_RADS);
+            ctxHeat.stroke();
             
             anRads += STEP_ANGLE_RADS;
         }
