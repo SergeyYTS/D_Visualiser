@@ -11,10 +11,17 @@ var textArea = document.getElementById("textArea");
 var data;
 var rowsLabel = document.getElementById("rowsLabel");
 var colsLabel = document.getElementById("colsLabel");
+
 var blackLevelRangeInput = document.getElementById("blackLevelRangeInput");
 var blackLevelRangeOutput = document.getElementById("blackLevelRangeOutput");
 var whiteLevelRangeInput = document.getElementById("whiteLevelRangeInput");
 var whiteLevelRangeOutput = document.getElementById("whiteLevelRangeOutput");
+
+var blackLevelHeatInput = document.getElementById("blackLevelHeatInput");
+var blackLevelHeatOutput = document.getElementById("blackLevelHeatOutput");
+var whiteLevelHeatInput = document.getElementById("whiteLevelHeatInput");
+var whiteLevelHeatOutput = document.getElementById("whiteLevelHeatOutput");
+
 var diagonalFlipInput = document.getElementById("diagonalFlipInput");
 var poinSizeInput = document.getElementById("poinSizeInput");
 
@@ -185,6 +192,27 @@ function autoDetectLevelsForRawRange() {
 }
 
 
+function autoDetectLevelsForRawHeat() {
+    var minVal = rawDataHeat[0];
+    var maxVal = rawDataHeat[0];
+    for (var n = 0; n < rawDataHeat.length; n++) {
+        var d = rawDataHeat[n];
+        if (d > maxVal) {
+            maxVal = d;
+        }
+        if (d < minVal) {
+            minVal = d;
+        }        
+    }
+    
+    blackLevelHeatInput.value = minVal;  
+    blackLevelHeatOutput.value = minVal;
+    
+    whiteLevelHeatInput.value = maxVal;
+    whiteLevelHeatOutput.value = maxVal;  
+}
+
+
 function autoDetectLevelsForDump() {
     var minVal = data[0][0];
     var maxVal = data[0][0];
@@ -307,8 +335,8 @@ function drawDataHeat() {
     const pointSize = poinSizeInput.value;
     var isDiagonalFlip = diagonalFlipInput.checked;    
     var isCenterShift = centerShiftInput.checked;
-    var minLevel = blackLevelInput.value;
-    var maxLevel = whiteLevelInput.value;
+    var minLevel = blackLevelHeatInput.value;
+    var maxLevel = whiteLevelHeatInput.value;
     var rowsNum = 0;
     var colsNum = 0;
 
