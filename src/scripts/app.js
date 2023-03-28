@@ -462,8 +462,9 @@ var connectOptions = {
 
 function connect() {
   try {
-    var clientIdUnic = clientId + "_" + Date.now();
-    client = new Paho.Client('192.168.0.18', 5883, '', clientId);
+    var clientIdUnic = clientId + "_" + (Date.now() % 10000);
+    console.log("Connect as " + clientIdUnic);
+    client = new Paho.Client('192.168.0.18', 5883, '', clientIdUnic);
     connectOptions.userName = userName;
     client.connect(connectOptions);
     isDataFromSocket = true;
