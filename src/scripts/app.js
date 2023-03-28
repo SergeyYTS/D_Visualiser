@@ -196,9 +196,10 @@ function autoDetectLevelsForRawRange() {
 
 
 function autoDetectLevelsForRawHeat() {
-    var minVal = rawDataHeat[0 + HEAT_SCIP_ROWS_BEGIN];
-    var maxVal = rawDataHeat[0 + HEAT_SCIP_ROWS_BEGIN];
-    for (var n = HEAT_SCIP_ROWS_BEGIN; n < rawDataHeat.length - HEAT_SCIP_ROWS_END; n++) {
+    var colsNum = rawDataHeatColsInput.value;
+    var minVal = rawDataHeat[0 + HEAT_SCIP_ROWS_BEGIN * colsNum];
+    var maxVal = rawDataHeat[0 + HEAT_SCIP_ROWS_BEGIN * colsNum];
+    for (var n = HEAT_SCIP_ROWS_BEGIN; n < rawDataHeat.length - HEAT_SCIP_ROWS_END * colsNum; n++) {
         var d = rawDataHeat[n];
         if (d > maxVal) {
             maxVal = d;
