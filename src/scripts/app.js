@@ -673,15 +673,7 @@ function canvasScaleAdjust() {
         var scrHor = 1;
         if (isAutoZoomWidthInput) {
             scrHor = (ww - 2 * horOffset) / crw;
-        }
-        var scrVer = 1;
-        if (isautoZoomHeightInput) {
-            scrVer = (wh - 2 * verOffset) / crh;
-        }
-        canvasRangeDiv.style.width = "" + ww + "px";
-        canvasRangeDiv.style.height = "" + crh + "px";
-        canvasRange.style.transform = "scale(" + scrHor + "," + scrVer + ")";
-        
+        }           
 
         var chw = canvasHeat.width;
         var chh = canvasHeat.height;
@@ -690,13 +682,30 @@ function canvasScaleAdjust() {
         if (isAutoZoomWidthInput) {
             schHor = (ww - 2 * horOffset) / chw;
         }
+
+        /*
+        var scrVer = 1;
+        if (isautoZoomHeightInput) {
+            scrVer = (wh - 2 * verOffset) / crh;
+        }     
         var schVer = 1;
         if (isautoZoomHeightInput) {
             schVer = (wh - 2 * verOffset) / chh;
         }
+        */
+
+        var scVer = 1;
+        if (isautoZoomHeightInput) {
+            scVer = (wh - 2 * verOffset) / (crh + chh);
+        }
+
+        canvasRangeDiv.style.width = "" + ww + "px";
+        canvasRangeDiv.style.height = "" + crh + "px";
+        canvasRange.style.transform = "scale(" + scrHor + "," + scVer + ")";
+        
         canvasHeatDiv.style.width = "" + ww + "px";
         canvasHeatDiv.style.height = "" + chh + "px";
-        canvasHeat.style.transform = "scale(" + schHor + "," + schVer + ")";        
+        canvasHeat.style.transform = "scale(" + schHor + "," + scVer + ")";        
     } else {
         canvasRange.style.transform = "scale(1,1)";
         canvasHeat.style.transform = "scale(1,1)";
