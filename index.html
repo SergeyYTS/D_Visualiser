@@ -55,17 +55,7 @@
         </br>
         <label for="rawDataRangeRows">Rows</label>
         <input id="rawDataRangeRowsInput" name="rawDataRangeRows" type="number" min="1" max="2000" value="256" oninput="canvasResize();">
-        <hr>
-        <h1>Heat</h1>
-        <button onclick="subscribeHeat()">Subscribe</button>
-        <button onclick="unsubscribeHeat()">Unsubscribe</button>
         </br>
-        <label for="rawDataHeatCols">Columns</label>
-        <input id="rawDataHeatColsInput" name="rawDataHeatCols" type="number" min="1" max="2000" value="64" oninput="canvasResize();">
-        </br>
-        <label for="rawDataHeatRows">Rows</label>
-        <input id="rawDataHeatRowsInput" name="rawDataHeatRows" type="number" min="1" max="2000" value="256" oninput="canvasResize();">        
-        <hr>
         <button onclick="autoDetectLevels()">Auto detect levels</button> 
         </br>  
         <label for="blackLevel">Black level</label>
@@ -79,6 +69,17 @@
         <label for="diagonalFlip">Diagonal flip</label>
         <input id="diagonalFlipInput" name="diagonalFlip" type="checkbox" checked="checked" oninput="canvasResize();">
         </br>
+        <hr>
+        <h1>Heat</h1>
+        <button onclick="subscribeHeat()">Subscribe</button>
+        <button onclick="unsubscribeHeat()">Unsubscribe</button>
+        </br>
+        <label for="rawDataHeatCols">Columns</label>
+        <input id="rawDataHeatColsInput" name="rawDataHeatCols" type="number" min="1" max="2000" value="64" oninput="canvasResize();">
+        </br>
+        <label for="rawDataHeatRows">Rows</label>
+        <input id="rawDataHeatRowsInput" name="rawDataHeatRows" type="number" min="1" max="2000" value="256" oninput="canvasResize();">        
+        <hr>        
         <label for="poinSize">Point size</label>
         <input id="poinSizeInput" name="poinSize" type="number" min="1" max="20" value="2" oninput="canvasResize();">
         </br>
@@ -96,9 +97,9 @@
         <!--label for="autoZoomHeight">Auto zoom height</label>
         <input id="autoZoomHeightInput" name="autoZoomHeight" type="checkbox" oninput="canvasScaleAdjust()"-->
         </br>
-        <label for="sector">Sector</label>
+        <!--label for="sector">Sector</label>
         <input id="sectorInput" name="sector" type="checkbox" oninput="canvasResize();">
-        </br>
+        </br-->
         <div>
             <div id="canvasRangeDiv">
                 <canvas id="canvasRange" width=600 height=600 class="scalable"></canvas>

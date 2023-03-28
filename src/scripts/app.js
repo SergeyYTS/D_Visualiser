@@ -48,8 +48,6 @@ var autoZoomWidthInput = document.getElementById("autoZoomWidthInput");
 var canvasRangeDiv = document.getElementById("canvasRangeDiv");
 var canvasHeatDiv = document.getElementById("canvasHeatDiv");
 
-var sectorInput = document.getElementById("sectorInput");
-
 const OPENING_ANGLE_DEGREES = 140;
 const OPENING_ANGLE_RADS = OPENING_ANGLE_DEGREES / 180 * Math.PI;
 const START_ANGLE_RADS = -Math.PI / 2 - 0.5 * OPENING_ANGLE_RADS;
